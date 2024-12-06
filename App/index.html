@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalR Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.17/signalr.min.js"></script>
+</head>
+<body>
+    <h1>SignalR Connection Test</h1>
+    <p>Open the console to see connection logs.</p>
+
+    <script>
+        // URL del hub de SignalR (aju≤sta esta URL según tu configuración)
+        const hubUrl = "http://localhost:5000/signalr";
+
+        // Crear conexión al Hub
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl(hubUrl)
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        // Manejo de eventos de conexión
+        connection.on("notify", message => {
+            console.log("Mensaje recibido desde el servidor:", message);
+        });
+
+        // Abrir conexión
+        async function startConnection() {
+            try {
+                await connection.start();
+                console.log("Conexión abierta con éxito");
+            } catch (err) {
+                console.error("Error al conectar:", err);
+                setTimeout(startConnection, 5000); // Reintentar en 5 segundos
+            }
+        }
+
+        // Manejo de desconexión y reconexión
+        connection.onclose(async () => {
+            console.warn("Conexión cerrada. Intentando reconectar...");
+            await startConnection();
+        });
+
+        // Iniciar conexión
+        startConnection();
+    </script>
+</body>
+</html>
