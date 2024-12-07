@@ -13,18 +13,17 @@
 
     <script>
         // URL del hub de SignalR (aju≤sta esta URL según tu configuración)
-        const hubUrl = "http://localhost:5000/signalr";
+        const hubUrl = "http://localhost:5078/signalr";
 
         // Crear conexión al Hub
         const connection = new signalR.HubConnectionBuilder()
             .withUrl(hubUrl)
-            .configureLogging(signalR.LogLevel.Information)
             .build();
 
         // Manejo de eventos de conexión
-        connection.on("notify", message => {
-            console.log("Mensaje recibido desde el servidor:", message);
-        });
+        // connection.on("notify", message => {
+        //     console.log("Mensaje recibido desde el servidor:", message);
+        // });
 
         // Abrir conexión
         async function startConnection() {
