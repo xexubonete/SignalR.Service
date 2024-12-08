@@ -42,14 +42,14 @@ Este proyecto es un servidor basado en **ASP.NET Core** que utiliza **SignalR** 
 ```
 ## Estructura del Proyecto
 ├── App  
-&nbsp;&nbsp; │   ├── index.html  
-│   ├── node_modules  
-│   ├── package.json  
-│   └── pnpm-lock.yaml  
+    ├── index.html  
+    ├── node_modules  
+    ├── package.json  
+    └── pnpm-lock.yaml  
 ├── Hubs.cs  
 ├── Program.cs  
 ├── Properties  
-│   └── launchSettings.json  
+    └── launchSettings.json  
 ├── README.md  
 ├── SignalR.Service.csproj  
 ├── SignalR.Service.http  
