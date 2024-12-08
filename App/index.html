@@ -21,9 +21,9 @@
             .build();
 
         // Manejo de eventos de conexión
-        // connection.on("notify", message => {
-        //     console.log("Mensaje recibido desde el servidor:", message);
-        // });
+        connection.on("notify", message => {
+            console.log("Mensaje recibido desde el servidor:", message);
+        });
 
         // Abrir conexión
         async function startConnection() {
