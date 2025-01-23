@@ -1,93 +1,119 @@
-# SignalR.Service
+# 🚀 SignalR.Service
 
-Este proyecto es un servidor basado en **ASP.NET Core** que utiliza **SignalR** para habilitar comunicación en tiempo real entre clientes y servidores. Es ideal para aplicaciones que requieren notificaciones en vivo, como chats, paneles de control, y más.
+A real-time communication server built with **ASP.NET Core** and **SignalR**, designed for applications requiring live notifications, chat systems, dashboards, and more.
 
-## Características
+## ✨ Features
 
-- **SignalR**: Comunicación en tiempo real con soporte para WebSockets y transporte de reserva.
-- **CORS**: Configurado para aceptar solicitudes desde orígenes específicos.
-- **Swagger**: Documentación interactiva de la API.
-- **Ejemplo de Hub**: Contiene un `ChatHub` preconfigurado para manejar conexiones, mensajes y desconexiones.
+- **Real-time Communication**: WebSocket-based communication with fallback transport options
+- **Cross-Origin Resource Sharing (CORS)**: Configured for specific origins
+- **API Documentation**: Interactive Swagger documentation
+- **Pre-configured ChatHub**: Handles connections, messages, and disconnections with IP tracking
+- **Sample Client**: Includes a basic HTML/JavaScript client for testing
 
-## Requisitos previos
+## 📋 Prerequisites
 
-- **SDK de .NET 6 o superior**
-- Un navegador compatible con WebSockets (como Chrome, Edge o Safari).
-- Cliente para probar el servidor (por ejemplo, Postman o un frontend).
+- **.NET 8.0 SDK** or higher
+- WebSocket-compatible browser (Chrome, Firefox, Edge, Safari)
+- Node.js (for running the test client)
 
-## Instalación
+## 📁 Project Structure
 
-1. Clona este repositorio:
-   ```bash
-   git clone https://github.com/xexubonete/SignalR.Service.git
-   cd SignalR.Service
-   ```
-2. Restaura los paquetes necesarios:
-   ```bash
-    dotnet restore
-   ```
-3. Configura el archivo appsettings.json si es necesario.
-
-## Ejecución
-
-1.	Inicia el servidor: 
-```bash
-  dotnet run
 ```
-2.	Accede a la documentación Swagger en http://localhost:5000/swagger.
-
-3.	Conecta un cliente a SignalR utilizando el endpoint:
-```bash
-  ws://localhost:5000/signalr
+├── App
+│   ├── index.html
+│   ├── node_modules
+│   │   └── http-server -> .pnpm/http-server@14.1.1/node_modules/http-server
+│   ├── package.json
+│   └── pnpm-lock.yaml
+├── ChatHub.cs
+├── Program.cs
+├── Properties
+│   └── launchSettings.json
+├── README.md
+├── SignalR.Service.csproj
+├── SignalR.Service.http
+├── SignalR.Service.sln
+├── SignalR.Service.sln.DotSettings.user
+├── appsettings.Development.json
+└── appsettings.json
 ```
-## Estructura del Proyecto
-├── App  
-&nbsp;   ├── index.html  
-&nbsp;   ├── node_modules  
-&nbsp;   ├── package.json  
-&nbsp;   └── pnpm-lock.yaml  
-├── Hubs.cs  
-├── Program.cs  
-├── Properties  
-&nbsp;   └── launchSettings.json  
-├── README.md  
-├── SignalR.Service.csproj  
-├── SignalR.Service.http  
-├── SignalR.Service.sln  
-├── SignalR.Service.sln.DotSettings.user  
-├── appsettings.Development.json  
-├── appsettings.json  
 
-## Uso de SignalR
+## 🚦 Getting Started
 
-### Ejemplo de cliente JavaScript
+1. Clone the repository:
+```bash
+git clone https://github.com/xexubonete/SignalR.Service.git
+cd SignalR.Service
+```
+
+2. Restore dependencies:
+```bash
+dotnet restore
+```
+
+3. Run the server:
+```bash
+dotnet run
+```
+
+4. To test with the sample client:
+```bash
+cd App
+npm install
+npx http-server
+```
+
+## ⚙️ Configuration
+
+- **Server**: Runs on `http://localhost:5078` by default
+- **SignalR Endpoint**: `/signalr`
+- **CORS**: Configured for `http://localhost:8080` and `http://127.0.0.1:8080`
+- **Swagger**: Available at `http://localhost:5078/swagger` in development mode
+
+## 💻 Client Integration
+
 ```javascript
-// Crear conexión al Hub
 const connection = new signalR.HubConnectionBuilder()
-    .withUrl(hubUrl)
+    .withUrl("http://localhost:5078/signalr")
     .build();
 
-// Manejo de eventos de conexión
+// Handle notifications
 connection.on("notify", message => {
-    console.log("Mensaje recibido desde el servidor:", message);
+    console.log("Server message:", message);
 });
 
-// Abrir conexión
+// Connect to hub
 async function startConnection() {
     try {
         await connection.start();
-        console.log("Conexión abierta con éxito");
+        console.log("Connected successfully");
     } catch (err) {
-        console.error("Error al conectar:", err);
-        setTimeout(startConnection, 5000); // Reintentar en 5 segundos
+        console.error("Connection failed:", err);
+        setTimeout(startConnection, 5000);
     }
 }
 ```
-### Endpoints relevantes
-- _/signalr_: Endpoint de SignalR.
-- _CORS_: Configurado para aceptar solicitudes desde http://localhost:8080.
 
-### Arquitectura del proyecto
-- **Program.cs**: Configuración principal de la aplicación (CORS, SignalR, Swagger).  
-- **Hubs.cs**: Implementación del ChatHub, que gestiona las conexiones y mensajes de los clientes.  
-- **appsettings.json**: Configuraciones generales de la aplicación.  
+## 🔍 Features in Detail
+
+### 💬 ChatHub Functionality
+- Tracks client connections with IP addresses
+- Broadcasts connection/disconnection events
+- Supports message broadcasting between clients
+
+### 🔒 Security
+- CORS policy configured for development environments
+- Supports both HTTP and HTTPS protocols
+- Anonymous authentication enabled
+
+## 👨‍💻 Development
+
+The project uses:
+- ASP.NET Core 8.0
+- SignalR for real-time communications
+- Swagger for API documentation
+- jQuery and SignalR client libraries for the test application
+
+## 📄 License
+
+ISC License (as specified in package.json)
