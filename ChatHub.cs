@@ -10,7 +10,7 @@ namespace SignalR.Service.Hubs
         public override async Task OnConnectedAsync()
         {
             string connectionId = Context.ConnectionId;
-            string clientIp = Context.GetHttpContext()?.Connection.RemoteIpAddress?.ToString();
+            string clientIp = Context.GetHttpContext()?.Connection?.RemoteIpAddress?.ToString() ?? "";
 
             if (!string.IsNullOrEmpty(clientIp))
             {
@@ -20,11 +20,11 @@ namespace SignalR.Service.Hubs
             await base.OnConnectedAsync();
         }
 
-        public override async Task OnDisconnectedAsync(Exception exception)
+        public override async Task OnDisconnectedAsync(Exception? exception)
         {
             string connectionId = Context.ConnectionId;
 
-            if (connections.TryRemove(connectionId, out string clientIp))
+            if (connections.TryRemove(connectionId, out string? clientIp))
             {
                 await Clients.All.SendAsync("notify", $"Cliente desconectado: {connectionId} que estaba en la IP {clientIp}");
             }
